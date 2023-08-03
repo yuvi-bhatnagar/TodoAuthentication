@@ -1,10 +1,10 @@
 const todoTextNode = document.getElementById("new-todo");
 const addTodoButton = document.getElementById("add-todo");
-
-const userName = prompt("Enter your name");
-
-getTodos();
-
+var userName="";
+(async function() {
+  userName = await getUser();
+  getTodos();
+})();
 addTodoButton.addEventListener("click", function () {
   const todoTextValue = todoTextNode.value;
 
@@ -100,6 +100,19 @@ function getTodos() {
     });
 }
 
+
+async function getUser() {
+  try {
+    const response = await fetch("/user");
+    if (response.status !== 200) {
+      throw new Error("Something went wrong");
+    }
+    const user = await response.json();
+    return user;
+  } catch (error) {
+    alert(error);
+  }
+}
 function changeStatus(todo, callback) {
   fetch("/change", {
     method: "POST",

@@ -89,6 +89,11 @@ app.get("/todos", function (request, response) {
     }
   });
 });
+app.get("/user", function(req, response) {
+    const user=req.session.username;
+      response.status(200);
+      response.json(user);
+});
 
 app.get("/logout", function (request, response) {
   if (request.session.isLoggedin) {
